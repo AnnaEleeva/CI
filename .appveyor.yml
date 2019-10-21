@@ -49,22 +49,24 @@ test_script:
     - ctest -C %CONFIGURATION% --output-on-failure
 
 artifacts:
-    - path: <local-package-path>
-      name: package_name
+    # файлы-артефакты нужно предварительно явно указать в данной секции
+    # в терминологии AppVeyor это называется "push artifacts"
+    - path: file1.pkg
+    - path: file2.pkg
+    - ...
 
 deploy:
-    # выкладываем tagged-коммиты на GitHub Releases:
-    description: '$(APPVEYOR_REPO_TAG_NAME)'
-    provider: GitHub
+    provider: GitHub                         # выкладываем на GitHub Releases
+    description: '$(APPVEYOR_REPO_TAG_NAME)' # tag как имя релиза (на Travis так по умолчанию)
 
     auth_token:
-        secure: <encrypted-github-token>
+        secure: <secret-github-token> # токен, зашифрованный на сайте appveyor.ci
 
-    artifact: package_name
-    force_update: true
+    artifact: /.*\.pkg/ # регулярное выражение, описывающее все артефакты данного релиза
+    force_update: true  # перезаписывать артефакты, если файл с таким именем уже имеется
 
     on:
-        appveyor_repo_tag: true
+        appveyor_repo_tag: true # выполнять deploy только для tagged-commit
 environment:
   my_variable:
     secure: p43X1Cz0fkh0ewOu9imeEAPQvWHzDjujeSajFgxdg1ToVvKZIvvRNGD8n8c/oYby
