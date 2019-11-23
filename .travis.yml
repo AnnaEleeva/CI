@@ -4,38 +4,6 @@ sudo:     required  # èñïîëüçóåì Virtual Machine (à íå Docker conta
 language: cpp       # íà ïðàêòèêå ðàçíèöû ìåæäó ñïåöèôè÷íûì äëÿ C++ îêðóæåíèåì
                     # è, ñêàæåì, python -- íèêàêîé. Íî ïóñòü áóäåò cpp.
 
-os:
-    # áóäåì ïðîãîíÿòü CI è íà Linux, è íà Mac OS X...
-    - linux
-    - osx
-
-compiler:
-    # ... è ñ ïîìîùüþ GCC, è Clang
-    - gcc
-    - clang
-
-env:
-    # ñïèñîê ïåðåìåííûõ îêðóæåíèÿ, âëèÿþùèõ íà ìàòðèöó ñáîðêè:
-    - TARGET_CPU=amd64 BUILD_CONFIGURATION=Debug
-    - TARGET_CPU=amd64 BUILD_CONFIGURATION=Release
-    - TARGET_CPU=x86 BUILD_CONFIGURATION=Debug
-    - TARGET_CPU=x86 BUILD_CONFIGURATION=Release
-
-matrix:
-    exclude:
-        # âðó÷íóþ èñêëþ÷èì íåíóæíûå ýëåìåíòû èç ìàòðèöû ñáîðêè:
-
-install:
-    # ñêðèïò íàñòðîéêè ñðåäû è óñòàíîâêè çàâèñèìîñòåé:
-    - source ci/travis/install-$TRAVIS_OS_NAME.sh
-
-script:
-    # ñêðèïò ñáîðêè è òåñòèðîâàíèÿ ïðîåêòà:
-    - mkdir build
-    - cd build
-    - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_CONFIGURATION -DTARGET_CPU=$TARGET_CPU
-    - cmake --build .
-    - ctest --output-on-failure
 
 deploy:
     provider: releases # выкладываем на GitHub Releases
