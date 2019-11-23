@@ -61,7 +61,7 @@ deploy:
     description: release_1
     provider: GitHub
     auth_token:
-        secure: 9dHRx2NOYVRAQx95WelmbFbfu62jK7w/51czQEyYdnFxhW1W8swYrPhtCsVSwIY1
+        secure: p43X1Cz0fkh0ewOu9imeEAPQvWHzDjujeSajFgxdg1ToVvKZIvvRNGD8n8c/oYby
     artifact: package_name
     force_update: true
 
