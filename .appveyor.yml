@@ -25,6 +25,8 @@ configuration:
     - Release
 
 environment:
+  my_variable:
+    secure: blEBW36KCGTMSGYFolvg1VJtGTFk1iCtOGrhpwCwpuFujv6GtyJqR8ffvJO3nCEP
     matrix:
     # ... на трёх студиях (2010, 2012, 2015)
         - TOOLCHAIN: msvc10
@@ -67,3 +69,5 @@ deploy:
 
     on:
         appveyor_repo_tag: true
+        
+        
