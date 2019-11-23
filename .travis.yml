@@ -1,5 +1,47 @@
+image: Visual Studio 2017
 
-language: cpp       # íà ïðàêòèêå ðàçíèöû ìåæäó ñïåöèôè÷íûì äëÿ C++ îêðóæåíèåì
-                    # è, ñêàæåì, python -- íèêàêîé. Íî ïóñòü áóäåò cpp.
+version: 0.5.1+appveyor.{build}
 
+init:
+- dotnet —info
+- git config —global core.autocrlf true
 
+configuration: release
+
+build_script:
+- dotnet build src\LocalAppVeyor.Engine —configuration %configuration%
+- dotnet build src\LocalAppVeyor —configuration %configuration%
+
+after_build:
+- dotnet pack src\LocalAppVeyor.Engine —configuration %configuration% —output out_engine
+- dotnet pack src\LocalAppVeyor —configuration %configuration% —output out_console
+
+test_script:
+- dotnet test tests\LocalAppVeyor.Engine.UnitTests\LocalAppVeyor.Engine.UnitTests.csproj —configuration %configuration%
+
+artifacts:
+- path: src\LocalAppVeyor.Engine\out_engine\*.nupkg
+name: engine_packages
+- path: src\LocalAppVeyor\out_console\*.nupkg
+name: console_packages
+
+deploy:
+- provider: NuGet
+api_key:
+secure: 5tGafPyxJmP3WyC7bjI7bViV45eIqB6f43p6326+FSRkbZFnfTCt0k5xHxFT5ULj
+on:
+branch: master
+appveyor_repo_tag: true
+configuration: release
+skip_symbols: true
+artifact: engine_packages
+
+- provider: NuGet
+api_key:
+secure: 9blRHAdK46w0k9LsDyqa7fnKwLDqVfX4sRDamTq0rffK1W3LCsIwwJUKCSW9uXsm
+on:
+branch: master
+appveyor_repo_tag: true
+configuration: release
+skip_symbols: true
+artifact: console_packages
