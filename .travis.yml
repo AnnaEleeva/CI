@@ -1,23 +1,5 @@
-dist:     trusty    # èñïîëüçóåì Ubuntu 14.04 Trusty Tahr (à íå 12.02 Precise Pangolin)
-sudo:     required  # èñïîëüçóåì Virtual Machine (à íå Docker container)
 
 language: cpp       # íà ïðàêòèêå ðàçíèöû ìåæäó ñïåöèôè÷íûì äëÿ C++ îêðóæåíèåì
                     # è, ñêàæåì, python -- íèêàêîé. Íî ïóñòü áóäåò cpp.
 
 
-deploy:
-    provider: releases # выкладываем на GitHub Releases
-
-    api_key:
-        secure: encrypted-github-token # токен, зашифрованный с помощью `travis encrypt`
-
-    file:
-        # список артефактов
-        - file1.pkg
-        - file2.pkg
-        - ...
-
-    skip_cleanup: true # не удалять сгенерированные во время сборки файлы перед развёртыванием
-
-    on:
-        tags: true     # выполнять deploy только для tagged-commit
